@@ -1,0 +1,32 @@
+pipeline{
+    agent any // this is require to create the pipeline
+    stages{ 
+        stage('build'){ //the stage that is going to be executed
+            steps{ // What is going to be executed
+                echo 'Building'
+                sh 'make'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true            }
+        }
+        stage('Test'){
+            steps{
+                echo 'Testing'
+            }
+
+        }
+        stage('Deploy'){
+            steps{
+                echo 'Deploying'
+                when{
+                    expression {
+                        currentBuild.result == nul || currentBuild.result == 'SUCCESS'
+                    }
+                }
+            }
+        }
+        stage('Example'){
+            steps{
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+    }
+}
