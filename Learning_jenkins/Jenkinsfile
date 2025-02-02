@@ -3,8 +3,18 @@ pipeline {
     stages {
         stage('Stage 1') {
             steps {
-                echo 'Hello world!'
+                timeout(time: 60, unit: 'SECONDS'){
+                    input(message: 'Okay to deploy', ok:'Lets do it')
+                }
             }
         }
+    }
+    post {
+    success {
+        echo "build succeeded"
+    }
+    failure {
+        echo "Build failed"
+    }
     }
 }
