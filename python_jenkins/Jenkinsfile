@@ -1,8 +1,8 @@
 pipeline {
     agent any 
 
-    stage {
-        stages('Setup'){
+    stages {
+        stage('Setup'){
             steps{
                 script {
                     sh 'python3 -m venv venv' // Virtual enviroment
@@ -10,7 +10,7 @@ pipeline {
                 }
             }
         }
-        stages('Run test'){
+        stage('Run test'){
             steps{
                 script {
                     sh '. venv/bin/activate && pytest --junitxml=report.xml'
