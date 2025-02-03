@@ -2,12 +2,17 @@ pipeline {
     agent any 
 
     stages {
-        stage('Setup'){
-            steps{
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/your-username/your-repo.git'
+            }
+        }
+        stage('Setup') {
+            steps {
                 script {
                     sh '''
-                        python3 -m venv venv
-                        . venv/bin/activate
+                        python3 -m venv venv  # Create virtual environment
+                        . venv/bin/activate   # Activate virtual environment
                         python3 -m ensurepip --upgrade
                         venv/bin/pip install --upgrade pip
                         venv/bin/pip install -r requirements.txt
@@ -15,15 +20,17 @@ pipeline {
                 }
             }
         }
-        stage('Run test'){
-            steps{
+        stage('Run test') {
+            steps {
                 script {
-                    sh '. venv/bin/activate && pytest --junitxml=report.xml'
+                    sh '''
+                        . venv/bin/activate && pytest --junitxml=report.xml
+                    '''
                 }
             }
         }
-        stage('Publish Result'){
-            steps{
+        stage('Publish Result') {
+            steps {
                 junit 'report.xml'  // Publish test results
             }
         }
