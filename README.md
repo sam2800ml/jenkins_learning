@@ -82,3 +82,10 @@ There are two ways of creating pipelines in jenkins, its using the declarative v
                         }
                     }
                     }```
+
+## Distributed Vuilds Terminology
+Terminology
+- Controller: Is where the jenkins is installed, stores all the configurations, load plugins.
+- Agent: Controls the jenins master and performs various operations as directed by the jenkins Controller
+- Node: A machine that can allocate an executor and run jenkins jobs
+- Executor: Is a basic bulding block which allows a build to run on a node

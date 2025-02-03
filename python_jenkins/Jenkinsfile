@@ -1,0 +1,26 @@
+pipeline {
+    agent any 
+
+    stage {
+        stages('Setup'){
+            steps{
+                script {
+                    sh 'python3 -m venv venv' // Virtual enviroment
+                    sh '. venv/bin/activate & pip install requirements.txt'
+                }
+            }
+        }
+        stages('Run test'){
+            steps{
+                script {
+                    sh '. venv/bin/activate && pytest --junitxml=report.xml'
+                }
+            }
+        }
+        stage('Publish Result'){
+            steps{
+                junit 'report.xml'  // Publish test results
+            }
+        }
+    }
+}
