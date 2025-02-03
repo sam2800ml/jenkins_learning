@@ -5,8 +5,13 @@ pipeline {
         stage('Setup'){
             steps{
                 script {
-                    sh 'python3 -m venv venv' // Virtual enviroment
-                    sh '. venv/bin/activate & pip install requirements.txt'
+                    sh '''
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        python3 -m ensurepip --upgrade
+                        venv/bin/pip install --upgrade pip
+                        venv/bin/pip install -r requirements.txt
+                    '''
                 }
             }
         }
